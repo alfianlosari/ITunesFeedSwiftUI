@@ -19,6 +19,13 @@ public enum FetchPhase<T> {
         }
         return nil
     }
+    
+    public var error: Error? {
+        if case let .failure(error) = self {
+            return error
+        }
+        return nil
+    }
 }
 
 public class MediaListObservableObject<T: Codable>: ObservableObject {
@@ -28,6 +35,8 @@ public class MediaListObservableObject<T: Codable>: ObservableObject {
     let resultLimit: ResultLimit
     
     @Published public var phase: FetchPhase<Feed<T>> = .loading
+    public var results: [T]? { phase.results?.results }
+    public var error: Error? { phase.error }
     
     init(region: String = "us",
         resultLimit: ResultLimit = .limit25,
@@ -68,7 +77,6 @@ public final class SongListObservableObject: MediaListObservableObject<Song> {
         repository: FeedRepositoryInterface = FeedRepository()) {
             super.init(region: region, resultLimit: resultLimit, repository: repository)
     }
-    
     
     override func fetch() async throws -> Feed<Song> {
         try await repository.getMostPlayedSongsFeed(region: region, resultLimit: resultLimit)
