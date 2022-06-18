@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "itunesfeedgenerator",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/alfianlosari/ITunesFeedGenerator",
+      "state" : {
+        "branch" : "main",
+        "revision" : "f7ae19991fa3c30e0311e3bc7f54d159b835cbc6"
+      }
+    }
+  ],
+  "version" : 2
+}
