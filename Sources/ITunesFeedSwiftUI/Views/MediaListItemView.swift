@@ -20,6 +20,10 @@ extension Book: ITunesMediaListItem {}
 extension Song: ITunesMediaListItem {}
 extension Application: ITunesMediaListItem {}
 
+extension Song: Identifiable {}
+extension Book: Identifiable {}
+extension Application: Identifiable {}
+
 public struct MediaListItemView: View {
     
     let item: ITunesMediaListItem
