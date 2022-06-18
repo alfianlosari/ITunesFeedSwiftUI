@@ -13,7 +13,7 @@ public enum FetchPhase<T> {
     case failure(Error)
     case loading
     
-    var results: T? {
+    public var results: T? {
         if case let .success(result) = self {
             return result
         }
@@ -27,7 +27,7 @@ public class MediaListObservableObject<T: Codable>: ObservableObject {
     let region: String
     let resultLimit: ResultLimit
     
-    @Published var phase: FetchPhase<Feed<T>> = .loading
+    @Published public var phase: FetchPhase<Feed<T>> = .loading
     
     init(region: String = "us",
         resultLimit: ResultLimit = .limit25,
