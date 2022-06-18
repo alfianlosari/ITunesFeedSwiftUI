@@ -12,6 +12,13 @@ public enum FetchPhase<T> {
     case success(T)
     case failure(Error)
     case loading
+    
+    var results: T? {
+        if case let .success(result) = self {
+            return result
+        }
+        return nil
+    }
 }
 
 public class MediaListObservableObject<T: Codable>: ObservableObject {
