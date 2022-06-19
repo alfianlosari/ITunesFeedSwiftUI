@@ -34,7 +34,26 @@ public struct MediaGridView<T: Codable>: View where T: ITunesMediaListItem, T: I
             }
             .padding()
         }
-        .mediaListItemOverlayTask(title: title, vm: vm)
+        .navigationTitle(title)
+        .overlay(overlayView)
+        .task {
+            if vm.results == nil {
+                vm.fetchMedia()
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var overlayView: some View {
+        switch vm.phase {
+        case .success(let feed) where feed.results.isEmpty:
+            Text("Feed is empty")
+        case .failure(let error):
+            Text(error.localizedDescription)
+        case .loading:
+            ProgressView()
+        default: EmptyView()
+        }
     }
 }
 

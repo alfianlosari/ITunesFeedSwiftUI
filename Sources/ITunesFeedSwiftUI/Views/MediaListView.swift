@@ -23,24 +23,14 @@ public struct MediaListView<T: Codable>: View where T: ITunesMediaListItem, T: I
             NavigationLink(value: item) {
                 MediaListItemView(item: item)
             }
-        }.mediaListItemOverlayTask(title: title, vm: vm)
-    }
-}
-
-struct MediaListItemOverlayTask<T: Codable>: ViewModifier {
-    
-    let title: String
-    let vm: MediaListObservableObject<T>
-    
-    func body(content: Content) -> some View {
-        content
-            .navigationTitle(title)
-            .overlay(overlayView)
-            .task {
-                if vm.results == nil {
-                    vm.fetchMedia()
-                }
+        }
+        .navigationTitle(title)
+        .overlay(overlayView)
+        .task {
+            if vm.results == nil {
+                vm.fetchMedia()
             }
+        }
     }
     
     @ViewBuilder
@@ -54,12 +44,6 @@ struct MediaListItemOverlayTask<T: Codable>: ViewModifier {
             ProgressView()
         default: EmptyView()
         }
-    }
-}
-
-extension View {
-    func mediaListItemOverlayTask<T:Codable>(title: String, vm: MediaListObservableObject<T>) -> some View {
-        modifier(MediaListItemOverlayTask(title: title, vm: vm))
     }
 }
 
