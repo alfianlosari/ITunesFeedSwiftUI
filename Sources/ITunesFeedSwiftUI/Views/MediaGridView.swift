@@ -7,13 +7,18 @@
 
 import SwiftUI
 
-struct MediaGridView<T: Codable>: View where T: ITunesMediaListItem, T: Identifiable, T: Hashable {
+public struct MediaGridView<T: Codable>: View where T: ITunesMediaListItem, T: Identifiable, T: Hashable {
     
     let title: String
     @StateObject var vm: MediaListObservableObject<T>
     
+    public init(title: String, vm: MediaListObservableObject<T>) {
+        self.title = title
+        self._vm = StateObject(wrappedValue: vm)
+    }
+    
     private let columns = [GridItem(.adaptive(minimum: 240), alignment: .leading)]
-    var body: some View {
+    public var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, alignment: .leading, spacing: 24) {
                 ForEach(vm.results ?? []) { item in
@@ -29,26 +34,7 @@ struct MediaGridView<T: Codable>: View where T: ITunesMediaListItem, T: Identifi
             }
             .padding()
         }
-        .navigationTitle(title)
-        .overlay(overlayView)
-        .task {
-            if vm.results == nil {
-                vm.fetchMedia()
-            }
-        }
-    }
-    
-    @ViewBuilder
-    private var overlayView: some View {
-        switch vm.phase {
-        case .success(let feed) where feed.results.isEmpty:
-            Text("Feed is empty")
-        case .failure(let error):
-            Text(error.localizedDescription)
-        case .loading:
-            ProgressView()
-        default: EmptyView()
-        }
+        .mediaListItemOverlayTask(title: title, vm: vm)
     }
 }
 
