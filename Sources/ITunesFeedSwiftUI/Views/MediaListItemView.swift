@@ -70,7 +70,7 @@ public struct MediaListItemView: View {
                         NSWorkspace.shared.open(buttonURL)
                         #endif
                     }
-                    .buttonStyle(BorderedProminentButtonStyle())
+                    .buttonStyle(BorderedButtonStyle())
                     .padding(.top, 8)
                 }
             }
