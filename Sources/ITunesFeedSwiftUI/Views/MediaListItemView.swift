@@ -60,6 +60,7 @@ public struct MediaListItemView: View {
                 Text(item.releaseDate).font(.caption2).foregroundColor(.secondary)
                 
                 if let buttonURL = URL(string: item.url) {
+                    Spacer()
                     
                     Button("iTunes") {
                         #if os(iOS)
