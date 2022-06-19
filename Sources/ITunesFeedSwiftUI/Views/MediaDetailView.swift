@@ -8,7 +8,7 @@
 import ITunesFeedGenerator
 import SwiftUI
 
-protocol ITunesMediaDetailItem {
+public protocol ITunesMediaDetailItem {
     var url: String { get }
     var name: String { get }
 }
@@ -23,6 +23,7 @@ public struct MediaDetailView: View {
     public init(book: Book) { self.item = book }
     public init(song: Song) { self.item = song }
     public init(app: Application) { self.item = app }
+    public init(item: ITunesMediaDetailItem) { self.item = item }
     
     public var body: some View {
         mainView.navigationTitle(item.name)

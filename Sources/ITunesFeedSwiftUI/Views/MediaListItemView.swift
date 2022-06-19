@@ -8,7 +8,7 @@
 import ITunesFeedGenerator
 import SwiftUI
 
-protocol ITunesMediaListItem {
+public protocol ITunesMediaListItem {
     var artworkUrl100: String { get }
     var name: String { get }
     var artistName: String { get }
@@ -30,6 +30,7 @@ public struct MediaListItemView: View {
     public init(book: Book) { self.item = book }
     public init(song: Song) { self.item = song }
     public init(app: Application) { self.item = app }
+    public init(item: ITunesMediaListItem) { self.item = item }
     
     public var body: some View {
         HStack(alignment: .top, spacing: 16) {
