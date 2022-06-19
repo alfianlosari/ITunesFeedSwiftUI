@@ -73,6 +73,7 @@ public struct MediaListItemView: View {
                     .padding(.top, 8)
                 }
             }
+            .multilineTextAlignment(.leading)
         }
         .padding(.vertical, 8)
     }
