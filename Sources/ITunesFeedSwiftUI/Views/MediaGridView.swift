@@ -21,8 +21,8 @@ struct MediaGridView<T: Codable>: View where T: ITunesMediaListItem, T: Identifi
                     // Currently macOS layout is broken when it is embedded in NavigationLink 
                     MediaListItemView(item: item)
                     #else
-                    NavigationLink(value: song) {
-                        MediaListItemView(song: song)
+                    NavigationLink(value: item) {
+                        MediaListItemView(item: item)
                     }
                     #endif
                 }
