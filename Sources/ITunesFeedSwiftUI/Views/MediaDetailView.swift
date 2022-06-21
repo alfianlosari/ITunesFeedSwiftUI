@@ -19,6 +19,8 @@ extension Application: ITunesMediaDetailItem {}
 
 public struct MediaDetailView: View {
     
+    @State var phase: WebViewLoadPhase = .loading
+
     let item: ITunesMediaDetailItem
     public init(book: Book) { self.item = book }
     public init(song: Song) { self.item = song }
@@ -35,10 +37,40 @@ public struct MediaDetailView: View {
     @ViewBuilder
     private var mainView: some View {
         if let url = URL(string: item.url) {
-            WebView(url: url)
+            WebView(url: url, phase: $phase)
+                .overlay(overlayView)
         } else {
             Text("URL is not valid \(item.url)")
         }
+    }
+    
+    @ViewBuilder
+    private var overlayView: some View {
+        switch phase {
+        case .success:
+            EmptyView()
+        case .failure(let error):
+            ZStack {
+                Rectangle()
+                    .foregroundColor(loadingBackgroundColor)
+                Text(error.localizedDescription)
+            }
+            
+        case .loading:
+            ZStack {
+                Rectangle()
+                    .foregroundColor(loadingBackgroundColor)
+                ProgressView()
+            }
+        }
+    }
+    
+    private var loadingBackgroundColor: Color {
+        #if os(macOS)
+        Color(nsColor: .windowBackgroundColor)
+        #else
+        Color(uiColor: UIColor.systemBackground)
+        #endif
     }
 }
 
