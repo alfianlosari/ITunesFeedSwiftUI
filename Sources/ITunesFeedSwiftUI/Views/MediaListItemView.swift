@@ -12,7 +12,7 @@ public protocol ITunesMediaListItem {
     var artworkUrl100: String { get }
     var name: String { get }
     var artistName: String { get }
-    var releaseDate: String { get }
+    var releaseDate: String? { get }
     var url: String { get }
 }
 
@@ -58,7 +58,9 @@ public struct MediaListItemView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(item.name).font(.callout).foregroundColor(.primary)
                 Text(item.artistName).font(.caption).foregroundColor(.primary)
-                Text(item.releaseDate).font(.caption2).foregroundColor(.secondary)
+                if let releaseDate = item.releaseDate {
+                    Text(releaseDate).font(.caption2).foregroundColor(.secondary)
+                }
                 
                 if let buttonURL = URL(string: item.url) {
                     Spacer()
